@@ -10,6 +10,9 @@ set cpoptions&vim
 command VimemoOpen
       \ call vimemo#open()
 
+command -nargs=1 VimemoSearch
+      \ call vimemo#search('<args>')
+
 let g:vimemo_loaded = 1
 
 let &cpoptions = s:save_cpoptions

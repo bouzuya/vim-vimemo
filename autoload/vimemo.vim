@@ -8,9 +8,18 @@ function! vimemo#open()
   execute 'edit' _
 endfunction
 
+function! vimemo#search(keyword)
+  " TODO:
+  let file = s:get_option('directory') . '**'
+  let pattern = '\V' . escape(a:keyword, '\')
+  execute 'lvimgrep' '/' . pattern . '/gj' file
+  lopen
+endfunction
+
 function! s:get_file_name()
+  let dir = s:get_option('directory')
   let format = s:get_option('file_name_format')
-  let name = strftime(format)
+  let name = strftime(dir . format)
   return name
 endfunction
 
@@ -22,7 +31,10 @@ function! s:get_option(name)
 endfunction
 
 function! s:get_option_default(name)
-  let defaults = {'file_name_format': '~/vimemo/%Y-%m-%d.markdown'}
+  let defaults = {
+        \ 'directory': '~/vimemo/',
+        \ 'file_name_format': '%Y-%m-%d.markdown'
+        \ }
   return get(defaults, a:name, '')
 endfunction
 
