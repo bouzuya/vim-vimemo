@@ -10,8 +10,8 @@ endfunction
 
 function! s:get_file_name()
   let format = s:get_option('file_name_format')
-  let file_name = strftime(format)
-  return file_name
+  let name = strftime(format)
+  return name
 endfunction
 
 function! s:get_option(name)
