@@ -10,11 +10,19 @@ let s:DEFAULT_OPTIONS = {
       \ }
 
 function! vimemo#open()
+  return s:open()
+endfunction
+
+function! vimemo#search(keyword)
+  return s:search(a:keyword)
+endfunction
+
+function! s:open()
   let _ = s:get_file_name()
   execute 'edit' _
 endfunction
 
-function! vimemo#search(keyword)
+function! s:search()
   " TODO:
   let file = s:get_option('directory') . '**'
   let pattern = '\V' . escape(a:keyword, '\')
