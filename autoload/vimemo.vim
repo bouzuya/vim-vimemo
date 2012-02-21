@@ -13,8 +13,12 @@ function! vimemo#open()
   return s:open()
 endfunction
 
+function! vimemo#list()
+  return s:list()
+endfunction
+
 function! vimemo#search(keyword)
-  return s:search(a:keyword)
+  return s:search_fixed_string(a:keyword)
 endfunction
 
 function! s:open()
@@ -22,11 +26,21 @@ function! s:open()
   execute 'edit' _
 endfunction
 
-function! s:search(keyword)
+function! s:list()
+  let pattern = '\%1l'
+  return s:search_regexp(pattern, '')
+endfunction
+
+function! s:search_fixed_string(keyword)
+  let pattern = '\V' . escape(a:keyword, '\')
+  return s:search_regexp(pattern, 'g')
+endfunction
+
+function! s:search_regexp(pattern, ...)
+  let option = get(a:000, 1, '')
   " TODO:
   let file = s:get_option('directory') . '**'
-  let pattern = '\V' . escape(a:keyword, '\')
-  execute 'lvimgrep' '/' . pattern . '/gj' file
+  execute 'lvimgrep' '/' . a:pattern . '/j' . option file
   let list = getloclist(0)
   if len(list) ==# 0
     return

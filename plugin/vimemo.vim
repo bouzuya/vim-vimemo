@@ -13,6 +13,9 @@ command VimemoOpen
 command -nargs=1 VimemoSearch
       \ call vimemo#search('<args>')
 
+command VimemoList
+      \ call vimemo#list()
+
 let g:vimemo_loaded = 1
 
 let &cpoptions = s:save_cpoptions
