@@ -22,7 +22,7 @@ function! s:open()
   execute 'edit' _
 endfunction
 
-function! s:search()
+function! s:search(keyword)
   " TODO:
   let file = s:get_option('directory') . '**'
   let pattern = '\V' . escape(a:keyword, '\')
