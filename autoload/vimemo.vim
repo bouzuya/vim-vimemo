@@ -22,7 +22,7 @@ function! s:get_option(name)
 endfunction
 
 function! s:get_option_default(name)
-  let defaults = {'file_name_format': '~/vimemo/%Y-%m-%d.txt'}
+  let defaults = {'file_name_format': '~/vimemo/%Y-%m-%d.markdown'}
   return get(defaults, a:name, '')
 endfunction
 
