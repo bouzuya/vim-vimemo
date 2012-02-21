@@ -3,6 +3,11 @@ scriptencoding utf-8
 let s:save_cpoptions = &cpoptions
 set cpoptions&vim
 
+let s:DEFAULT_OPTIONS = {
+      \ 'directory': '~/vimemo/',
+      \ 'file_name_format': '%Y-%m-%d.markdown'
+      \ }
+
 function! vimemo#open()
   let _ = s:get_file_name()
   execute 'edit' _
@@ -31,11 +36,7 @@ function! s:get_option(name)
 endfunction
 
 function! s:get_option_default(name)
-  let defaults = {
-        \ 'directory': '~/vimemo/',
-        \ 'file_name_format': '%Y-%m-%d.markdown'
-        \ }
-  return get(defaults, a:name, '')
+  return get(s:DEFAULT_OPTIONS, a:name, '')
 endfunction
 
 let &cpoptions = s:save_cpoptions
