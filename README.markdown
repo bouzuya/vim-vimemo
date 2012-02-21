@@ -1,6 +1,8 @@
 vimemo.vim
 ==========
 
+*THE CURRENT VERSION IS A BETA VERSION.*
+
 Memo plugin for Vim.
 
 Installation
