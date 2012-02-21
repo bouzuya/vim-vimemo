@@ -27,6 +27,10 @@ function! s:search(keyword)
   let file = s:get_option('directory') . '**'
   let pattern = '\V' . escape(a:keyword, '\')
   execute 'lvimgrep' '/' . pattern . '/gj' file
+  let list = getloclist(0)
+  if len(list) ==# 0
+    return
+  endif
   lopen
   let max_height = s:get_option('max_loclist_height')
   call s:fit_loclist(max_height)
