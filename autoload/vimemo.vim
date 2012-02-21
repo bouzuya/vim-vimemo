@@ -5,7 +5,8 @@ set cpoptions&vim
 
 let s:DEFAULT_OPTIONS = {
       \ 'directory': '~/vimemo/',
-      \ 'file_name_format': '%Y-%m-%d.markdown'
+      \ 'file_name_format': '%Y-%m-%d.markdown',
+      \ 'max_loclist_height': 0
       \ }
 
 function! vimemo#open()
@@ -19,6 +20,8 @@ function! vimemo#search(keyword)
   let pattern = '\V' . escape(a:keyword, '\')
   execute 'lvimgrep' '/' . pattern . '/gj' file
   lopen
+  let max_height = s:get_option('max_loclist_height')
+  call s:fit_loclist(max_height)
 endfunction
 
 function! s:get_file_name()
@@ -37,6 +40,21 @@ endfunction
 
 function! s:get_option_default(name)
   return get(s:DEFAULT_OPTIONS, a:name, '')
+endfunction
+
+function! s:fit_loclist(max_height)
+  let list = getloclist(0)
+  let current = len(list)
+  let height = a:max_height <=# 0 ? current : s:min(current, a:max_height)
+  execute 'resize' height
+endfunction
+
+function! s:min(value1, value2)
+  if a:value1 <=# a:value2
+    return a:value1
+  else
+    return a:value2
+  endif
 endfunction
 
 let &cpoptions = s:save_cpoptions
