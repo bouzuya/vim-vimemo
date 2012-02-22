@@ -7,13 +7,13 @@ endif
 let s:save_cpoptions = &cpoptions
 set cpoptions&vim
 
-command VimemoOpen
+command! VimemoOpen
       \ call vimemo#open()
 
-command -nargs=1 VimemoSearch
+command! -nargs=1 VimemoSearch
       \ call vimemo#search('<args>')
 
-command VimemoList
+command! VimemoList
       \ call vimemo#list()
 
 let g:vimemo_loaded = 1
