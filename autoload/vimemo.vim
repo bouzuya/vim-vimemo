@@ -37,7 +37,7 @@ function! s:search_fixed_string(keyword)
 endfunction
 
 function! s:search_regexp(pattern, ...)
-  let option = get(a:000, 1, '')
+  let option = get(a:000, 0, '')
   " TODO:
   let file = s:get_option('directory') . '**'
   execute 'lvimgrep' '/' . a:pattern . '/j' . option file
