@@ -23,7 +23,7 @@ endfunction
 
 function! s:open()
   let _ = s:get_file_name()
-  execute 'edit' _
+  execute 'hide' 'edit' _
 endfunction
 
 function! s:list()
