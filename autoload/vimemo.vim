@@ -28,7 +28,7 @@ endfunction
 
 function! s:list()
   let pattern = '\%1l'
-  return s:search_regexp(pattern, '')
+  return s:search_regexp(pattern)
 endfunction
 
 function! s:search_fixed_string(keyword)
