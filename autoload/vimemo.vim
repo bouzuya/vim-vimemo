@@ -40,7 +40,7 @@ function! s:search_regexp(pattern, ...)
   let option = get(a:000, 0, '')
   " TODO:
   let file = s:get_option('directory') . '**'
-  execute 'lvimgrep' '/' . a:pattern . '/j' . option file
+  execute 'silent!' 'lvimgrep' '/' . a:pattern . '/j' . option file
   let list = getloclist(0)
   if len(list) ==# 0
     return
