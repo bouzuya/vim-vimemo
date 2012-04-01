@@ -18,7 +18,11 @@ function! vimemo#list()
 endfunction
 
 function! vimemo#search(keyword)
-  return s:search_fixed_string(a:keyword)
+  let k = s:string_is_empty(a:keyword) ? s:confirm_keyword() : a:keyword
+  if s:string_is_empty(k)
+    throw 'vimemo: keyword is empty.'
+  endif
+  return s:search_fixed_string(k)
 endfunction
 
 function! s:open_newfile()
@@ -92,6 +96,10 @@ function! s:fit_loclist(max_height)
   execute 'resize' height
 endfunction
 
+function! s:string_is_empty(s)
+  return strlen(substitute(a:s, '.', 'x', 'g')) == 0
+endfunction
+
 function! s:min(value1, value2)
   if a:value1 <=# a:value2
     return a:value1
@@ -106,6 +114,11 @@ function! s:confirm_mkdir(directory)
   let default = 1 " 1:&Yes
   let type = 'Question'
   return confirm(msg, choices, default, type) == 1
+endfunction
+
+function! s:confirm_keyword()
+  let prompt = 'keyword ? '
+  return input(prompt)
 endfunction
 
 let &cpoptions = s:save_cpoptions

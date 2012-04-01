@@ -10,8 +10,8 @@ set cpoptions&vim
 command! VimemoOpen
       \ call vimemo#open()
 
-command! -nargs=1 VimemoSearch
-      \ call vimemo#search('<args>')
+command! -nargs=* VimemoSearch
+      \ call vimemo#search(<q-args>)
 
 command! VimemoList
       \ call vimemo#list()
