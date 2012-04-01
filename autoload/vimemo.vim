@@ -10,29 +10,24 @@ let s:DEFAULT_OPTIONS = {
       \ }
 
 function! vimemo#open()
-  return s:open()
+  return s:open_newfile()
 endfunction
 
 function! vimemo#list()
-  return s:list()
+  return s:search_regexp('\%1l')
 endfunction
 
 function! vimemo#search(keyword)
   return s:search_fixed_string(a:keyword)
 endfunction
 
-function! s:open()
+function! s:open_newfile()
   let dir = s:get_directory()
   if !s:directory_exists(dir) && s:confirm_mkdir(dir)
     call s:mkdir_noexception(dir, 'p')
   endif
   let _ = s:get_file_name()
   execute 'hide' 'edit' _
-endfunction
-
-function! s:list()
-  let pattern = '\%1l'
-  return s:search_regexp(pattern)
 endfunction
 
 function! s:search_fixed_string(keyword)
