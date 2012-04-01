@@ -22,6 +22,10 @@ function! vimemo#search(keyword)
 endfunction
 
 function! s:open()
+  let dir = s:get_directory()
+  if !s:directory_exists(dir) && s:confirm_mkdir(dir)
+    call s:mkdir_noexception(dir, 'p')
+  endif
   let _ = s:get_file_name()
   execute 'hide' 'edit' _
 endfunction
@@ -39,7 +43,7 @@ endfunction
 function! s:search_regexp(pattern, ...)
   let option = get(a:000, 0, '')
   " TODO:
-  let file = s:get_option('directory') . '**'
+  let file = s:get_directory() . '**'
   execute 'silent!' 'lvimgrep' '/' . a:pattern . '/j' . option file
   let list = getloclist(0)
   if len(list) ==# 0
@@ -51,10 +55,28 @@ function! s:search_regexp(pattern, ...)
 endfunction
 
 function! s:get_file_name()
-  let dir = s:get_option('directory')
+  let dir = s:get_directory()
   let format = s:get_option('file_name_format')
   let name = strftime(dir . format)
   return name
+endfunction
+
+function! s:get_directory()
+  let dir = s:get_option('directory')
+  return fnamemodify(dir, ':p')
+endfunction
+
+function! s:directory_exists(directory)
+  return filewritable(a:directory) == 2
+endfunction
+
+function! s:mkdir_noexception(...)
+  try
+    call call('mkdir', a:000)
+    return 1
+  catch
+    return 0
+  endtry
 endfunction
 
 function! s:get_option(name)
@@ -81,6 +103,14 @@ function! s:min(value1, value2)
   else
     return a:value2
   endif
+endfunction
+
+function! s:confirm_mkdir(directory)
+  let msg = printf('mkdir ''%s''', a:directory)
+  let choices = join(['&Yes', '&No'], "\n")
+  let default = 1 " 1:&Yes
+  let type = 'Question'
+  return confirm(msg, choices, default, type) == 1
 endfunction
 
 let &cpoptions = s:save_cpoptions
